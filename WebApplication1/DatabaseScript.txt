@@ -1,0 +1,80 @@
+CREATE TABLE [dbo].[Customer Table]
+(
+	[CustomerID] INT PRIMARY KEY IDENTITY(1,1) NOT NULL, 
+    [CustomerName] NVARCHAR(50) NOT NULL, 
+    [Email ] NVARCHAR(50) NOT NULL, 
+    [CustomerAdress ] NVARCHAR(50) NOT NULL, 
+    [Reward] INT NOT NULL
+
+)
+
+
+
+CREATE TABLE [dbo].[Product Table]
+(
+	[ProductID] INT NOT NULL PRIMARY KEY IDENTITY(1,1), 
+    [ProductName] NVARCHAR(50) NOT NULL, 
+    [Price] DECIMAL(10, 2) NOT NULL
+)
+
+
+
+
+CREATE TABLE [dbo].[Store Table]
+(
+	[StoreID] INT NOT NULL PRIMARY KEY IDENTITY(1,1), 
+    [StoreLocation] NVARCHAR(50) NOT NULL, 
+    [Event] NVARCHAR(50) NULL
+)
+
+
+
+
+CREATE TABLE [dbo].[Orders Table] (
+    [OrderID] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    [CustomerID] INT NOT NULL,  -- Foreign Key to Customers table
+    [StoreID] INT NOT NULL,     -- Foreign Key to Stores table
+    [OrderDate] DATETIME NOT NULL,
+    [PaymentStatus] NVARCHAR(50) NOT NULL,
+    [DeliveryMethod] NVARCHAR(50) NOT NULL,
+    [Price] DECIMAL(10, 2) NOT NULL,
+
+    -- Define the Foreign Key relationships
+    CONSTRAINT FK_Order_Customer FOREIGN KEY (CustomerID) 
+        REFERENCES [dbo].[Customer Table](CustomerID),  -- Ensure CustomerID exists in Customer Table
+
+    CONSTRAINT FK_Order_Store FOREIGN KEY (StoreID) 
+        REFERENCES [dbo].[Store Table](StoreID)         -- Ensure StoreID exists in Store Table
+);
+
+
+
+
+CREATE TABLE [dbo].[OrderDetails Table] (
+    [OrderDetailsID] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    [OrderID] INT NOT NULL,  -- Foreign Key to Orders table
+    [ProductID] INT NOT NULL,  -- Foreign Key to Products table
+    [Quantity] INT NOT NULL,
+
+    -- Define the Foreign Key relationships
+    CONSTRAINT FK_OrderDetails_Order FOREIGN KEY (OrderID) 
+        REFERENCES [dbo].[Orders Table](OrderID),
+
+    CONSTRAINT FK_OrderDetails_Product FOREIGN KEY (ProductID) 
+        REFERENCES [dbo].[Product Table](ProductID)
+);
+
+
+
+
+CREATE TABLE [dbo].[Payments Table] (
+    [PaymentID] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    [OrderID] INT NOT NULL,  -- Foreign Key to Orders table
+    [PaymentMethod] NVARCHAR(50) NOT NULL,  -- e.g., Credit Card, PayPal
+    [PaymentDate] DATETIME NOT NULL,
+    [PaymentAmount] DECIMAL(10, 2) NOT NULL,  -- Total payment amount
+
+    -- Define the Foreign Key relationship
+    CONSTRAINT FK_Payment_Order FOREIGN KEY (OrderID) 
+        REFERENCES [dbo].[Orders Table](OrderID)
+);
