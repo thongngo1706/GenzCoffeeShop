@@ -1,15 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Web.UI.WebControls;
+using System.Data.Entity;
 
 namespace WebApplication1.Models
 {
     public class Customer
     {
-        public int LocationId { get; set; }  // Unique identifier for each location
-        public string Name { get; set; }  // Name of the coffee shop location
-        public string Address { get; set; }  // Address of the coffee shop
-        public ICollection<Order> Orders { get; set; }  // List of orders for this location
+        public int CustomerID { get; set; }
+        public string CustomerName { get; set; }
+        public string Email { get; set; }
+        public string CustomerAddress { get; set; }
+        public int Reward { get; set; }
+
+        // Navigation property for Orders
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

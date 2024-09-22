@@ -1,24 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Web.UI.WebControls;
+using System.Data.Entity;
 
 namespace WebApplication1.Models
 {
     public class Order
     {
-        public int OrderId { get; set; }
-        public int CustomerId { get; set; }
-        public int ProductId { get; set; }
-        public int LocationId { get; set; }
-        public int Quantity { get; set; }
+        public int OrderID { get; set; }
+        public int CustomerID { get; set; }
+        public int StoreID { get; set; }
         public DateTime OrderDate { get; set; }
-        public int? RewardId { get; set; }  // Optional foreign key for reward
+        public string PaymentStatus { get; set; }
+        public string DeliveryMethod { get; set; }
+        public decimal Price { get; set; }
 
         // Navigation properties
-        public Customer Customer { get; set; }
-        public Product Product { get; set; }
-        public Location Location { get; set; }
-        public Reward Reward { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual Store Store { get; set; }
+        public virtual ICollection<OrderDetails> OrderDetails { get; set; }
     }
+
 }

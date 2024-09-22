@@ -8,14 +8,14 @@ using System.Data.Entity;
 
 namespace WebApplication1.Models
 {
-    public class Product
+    public class Store
     {
-        public int ProductID { get; set; }
-        public string ProductName { get; set; }
-        public decimal Price { get; set; }
+        public int StoreID { get; set; }
+        public string StoreLocation { get; set; }
+        public string Event { get; set; }
 
         // Navigation property
-        public virtual ICollection<OrderDetails> OrderDetails { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 
 }
